@@ -33,6 +33,7 @@ export default function AddActivityTab({ navigation }: any) {
   /** Guardar la actividad */
   const handleSave = () => {
     setSubmitted(true);
+
     if (!isValid) return;
 
     const newActivity: Activity = {
@@ -56,11 +57,16 @@ export default function AddActivityTab({ navigation }: any) {
     setSubmitted(false);
 
     // Confirmación
+    Alert.alert(
+      'Confirmación',
+      'La actividad se registró correctamente.'
+    );
   };
 
   return (
     <ScreenContainer>
       <Text style={styles.header}>📝 Registrar Actividad</Text>
+
       <Text style={styles.description}>
         Agrega una actividad realizada con tu mascota.
       </Text>
@@ -68,6 +74,7 @@ export default function AddActivityTab({ navigation }: any) {
       <View style={styles.formContainer}>
         {/* Input: tipo de actividad */}
         <Text style={styles.label}>Tipo de actividad</Text>
+
         <CustomInput
           value={activityTitle}
           placeholder='Ej: "Baño", "Vet", "Juego", "Paseo extra"'
@@ -77,18 +84,19 @@ export default function AddActivityTab({ navigation }: any) {
 
         {/* Input: notas */}
         <Text style={styles.label}>Notas (opcional)</Text>
+
         <CustomInput
           value={notes}
           placeholder="Agrega notas adicionales..."
           onChangeText={setNotes}
         />
 
-        {/* --- Ternario: botón deshabilitado si no es válido --- */}
+        {/* Botón guardar */}
         <View style={styles.buttonContainer}>
           <CustomButton
             title="Guardar Actividad"
-            onPress={()=>{}}
-            disabled={isValid}
+            onPress={handleSave}
+            disabled={!isValid}
             variant="primary"
           />
         </View>
@@ -104,11 +112,13 @@ const styles = StyleSheet.create({
     color: '#263238',
     marginBottom: 8,
   },
+
   description: {
     fontSize: 14,
     color: '#78909C',
     marginBottom: 20,
   },
+
   formContainer: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
@@ -119,6 +129,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
+
   label: {
     fontSize: 14,
     fontWeight: '600',
@@ -126,6 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginTop: 8,
   },
+
   buttonContainer: {
     marginTop: 16,
   },
