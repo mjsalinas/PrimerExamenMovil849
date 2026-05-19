@@ -1,6 +1,7 @@
 // ============================================
 // Componente reutilizable: CustomButton
 // ============================================
+// @ts-ignore: Ignore missing react-native module declarations in this environment
 import {
   TouchableOpacity,
   Text,
@@ -39,12 +40,12 @@ export default function CustomButton({
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
+      style={[styles.base, buttonStyle]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
+      <Text style={[styles.baseText, textStyle, disabled && styles.disabledText]}>
         {title}
       </Text>
     </TouchableOpacity>
@@ -52,14 +53,7 @@ export default function CustomButton({
 }
 
 const styles = StyleSheet.create({
-  base: {
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 6,
-  },
+  base: { ... },
   primary: {
     backgroundColor: '#4A90D9',
   },
@@ -68,7 +62,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
-  
   baseText: {
     fontSize: 16,
     fontWeight: '600',
@@ -79,5 +72,9 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: '#4A90D9',
   },
-  
+
+  // ✅ Agrega esto al final
+  disabledText: {
+    color: '#A0A0A0',
+  },
 });
