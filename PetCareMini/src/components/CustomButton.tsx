@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A90D9',
   },
   secondary: {
-    backgroundColor: '#b9b7b7c3',
+    backgroundColor: '#B0BEC5',
     borderWidth: 2,
     borderColor: '#555555',
   },
