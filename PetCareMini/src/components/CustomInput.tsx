@@ -5,6 +5,7 @@ import { useState } from 'react';
 import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
+import React from 'react';
 
 /** Props del input personalizado */
 interface CustomInputProps {

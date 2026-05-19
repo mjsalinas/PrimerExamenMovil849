@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import StackNavigator from './src/navigation/StackNavigator';
 import { ActivityProvider } from './src/context/ActivityContext';
+import React from 'react';
 
 /**
  * Componente raíz de la aplicación PetCare Mini.

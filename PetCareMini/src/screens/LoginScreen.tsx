@@ -6,6 +6,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+import React from 'react';
 
 /**
  * Pantalla de inicio de sesión.
@@ -32,7 +33,7 @@ export default function LoginScreen({ navigation }: any) {
   /** Manejar el intento de inicio de sesión */
   const handleLogin = () => {
     setSubmitted(true);
-    if (isFormValid) {
+    if (!isFormValid) {
       // Navegar a la tab Home dentro del TabsNavigator
       navigation.navigate('Tabs', { screen: 'Home' });
     }
@@ -54,7 +55,7 @@ export default function LoginScreen({ navigation }: any) {
 
         {/* Input de correo */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
@@ -79,7 +80,7 @@ export default function LoginScreen({ navigation }: any) {
           />
         </View>
 
-        {isFormValid && submitted ? (
+        {!isFormValid && submitted ? (
           <Text style={styles.helpText}>
             Por favor, corrige los errores para continuar.
           </Text>

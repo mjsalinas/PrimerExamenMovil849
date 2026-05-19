@@ -6,6 +6,7 @@ import ScreenContainer from '../components/ScreenContainer';
 import InfoCard from '../components/InfoCard';
 import CustomButton from '../components/CustomButton';
 import { useActivities } from '../context/ActivityContext';
+import React from 'react';
 
 /**
  * Muestra el historial de actividades registradas.

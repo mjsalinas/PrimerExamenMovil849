@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeTab from '../screens/HomeTab';
 import AddActivityTab from '../screens/AddActivityTab';
 import HistoryTab from '../screens/HistoryTab';
+import React from 'react';
 
 export type TabParamList = {
   Home: undefined;
@@ -56,7 +57,7 @@ export default function TabsNavigator() {
       />
       <Tab.Screen
         name="AddActivity"
-        component={AddActivity}
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen
