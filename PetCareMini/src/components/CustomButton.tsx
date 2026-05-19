@@ -15,7 +15,7 @@ interface CustomButtonProps {
   onPress: () => void;
   disabled?: boolean;
   variant: 'primary' | 'secondary';
-}
+} 
 
 /**
  * Botón reutilizable con soporte para variantes y estado deshabilitado.
