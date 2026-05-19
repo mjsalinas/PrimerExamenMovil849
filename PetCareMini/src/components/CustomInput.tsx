@@ -1,10 +1,16 @@
 // ============================================
 // Componente reutilizable: CustomInput
 // ============================================
-import { useState } from 'react';
-import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
+import { useMemo, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  KeyboardTypeOptions,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
 
 /** Props del input personalizado */
 interface CustomInputProps {
@@ -28,63 +34,67 @@ export default function CustomInput({
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  // --- Ternario: determinar keyboardType según el tipo de input ---
-  const getKeyboardType = (): KeyboardTypeOptions => {
+  const keyboardType: KeyboardTypeOptions = useMemo(() => {
     if (type === 'email') return 'email-address';
     if (type === 'number') return 'numeric';
     return 'default';
-  };
+  }, [type]);
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
-    };
-    
-    error = getError();
+  const autoCapitalize = type === 'email' ? 'none' : 'sentences';
 
-  // --- Ternario: ocultar texto si es password y no se muestra ---
+  // --- Validación interna (si no viene error por props, usa esta) ---
+  const internalError = useMemo(() => {
+    if (type === 'email' && !value.includes('@')) return 'Correo Invalido';
+    if (type === 'password' && value.length < 6)
+      return 'La contraseña debe ser mas fuerte';
+    return '';
+  }, [type, value]);
+
+  const finalError = error ?? internalError;
+
   const isSecure = type === 'password' && !showPassword;
 
   return (
-      
-      <View style={[styles.inputWrapper, error?styles.inputError:styles.inputNormal]}>
-        <TextInput
-          style={styles.input}
-          value={value}
-          placeholder={placeholder}
-          onChangeText={onChangeText}
-          keyboardType={getKeyboardType()}
-          secureTextEntry={isSecure}
-          autoCapitalize={type === 'email' ? 'none' : 'sentences'}
-          placeholderTextColor="#90A4AE"
-        />
+    <View
+      style={[
+        styles.inputWrapper,
+        finalError ? styles.inputError : styles.inputNormal,
+      ]}
+    >
+      <TextInput
+        style={styles.input}
+        value={value}
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+        keyboardType={keyboardType}
+        secureTextEntry={isSecure}
+        autoCapitalize={autoCapitalize}
+        placeholderTextColor="#90A4AE"
+      />
 
-        {/* Toggle ojo para password */}
+      {/* Toggle ojo para password */}
+      {type === 'password' ? (
+        <TouchableOpacity
+          onPress={() => setShowPassword((s) => !s)}
+          style={styles.eyeButton}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name={showPassword ? 'eye-off' : 'eye-outline'}
+            size={22}
+            color="#607D8B"
+          />
+        </TouchableOpacity>
+      ) : null}
 
-        {type === 'password' && (
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            style={styles.eyeButton}
-            >
-            <Ionicons
-              name={showPassword ? 'eye-off' : 'eye-outline'}
-              size={22}
-              color="#607D8B"
-            />
-            </TouchableOpacity>
-        )}
-        <Text style={styles.errorText}>{error}</Text>
-      </View>
-      
+      {finalError ? (
+        <Text style={styles.errorText}>{finalError}</Text>
+      ) : null}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 8,
-  },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -111,7 +121,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#E53935',
     fontSize: 13,
-    marginTop: 4,
-    marginLeft: 4,
+    marginLeft: 8,
+    maxWidth: 140,
   },
 });
