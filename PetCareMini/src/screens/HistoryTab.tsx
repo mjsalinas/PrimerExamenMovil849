@@ -1,7 +1,7 @@
 // ============================================
 // Pantalla: HistoryTab (Historial de actividades)
 // ============================================
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import InfoCard from '../components/InfoCard';
 import CustomButton from '../components/CustomButton';
@@ -10,57 +10,68 @@ import React from 'react';
 
 /**
  * Muestra el historial de actividades registradas.
- * Demuestra renderizado condicionado con ternario para estado vacío.
+ * Optimizado con FlatList para un correcto scroll y eliminación en tiempo real.
  */
 export default function HistoryTab({ navigation }: any) {
   const { activities, deleteActivity } = useActivities();
 
+  // Componente para el estado vacío
+  const renderEmptyState = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyIcon}>📭</Text>
+      <Text style={styles.emptyText}>
+        Aún no hay actividades registradas
+      </Text>
+      <Text style={styles.emptySubtext}>
+        Ve a la pestaña "Agregar" para registrar tu primera actividad.
+      </Text>
+    </View>
+  );
+
+  // Componente de cabecera de la lista
+  const renderHeader = () => (
+    <View>
+      <Text style={styles.header}>📜 Historial de Actividades</Text>
+      {activities.length > 0 && (
+        <Text style={styles.countText}>
+          {activities.length}{' '}
+          {activities.length === 1 ? 'actividad' : 'actividades'} registrada
+          {activities.length === 1 ? '' : 's'}
+        </Text>
+      )}
+    </View>
+  );
+
   return (
     <ScreenContainer>
-      <Text style={styles.header}>📜 Historial de Actividades</Text>
-
-      {/* --- Ternario: estado vacío vs lista de actividades --- */}
-      {activities.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyIcon}>📭</Text>
-          <Text style={styles.emptyText}>
-            Aún no hay actividades registradas
-          </Text>
-          <Text style={styles.emptySubtext}>
-            Ve a la pestaña "Agregar" para registrar tu primera actividad.
-          </Text>
-        </View>
-      ) : (
-        <View>
-          <Text style={styles.countText}>
-            {activities.length}{' '}
-            {activities.length === 1 ? 'actividad' : 'actividades'} registrada
-            {activities.length === 1 ? '' : 's'}
-          </Text>
-
-          {activities.map((activity) => (
-            <View key={activity.id} style={styles.cardWrapper}>
-              <InfoCard
-                title={activity.title}
-                subtitle={
-                  activity.notes ? activity.notes : 'Sin notas adicionales'
-                }
-                rightText={activity.date}
-              />
-              {/* Botón eliminar */}
-              <CustomButton
-                title="🗑 Eliminar"
-                onPress={() => deleteActivity(activity.id)}
-              />
-            </View>
-          ))}
-        </View>
-      )}
+      <FlatList
+        data={activities}
+        keyExtractor={(item) => item.id.toString()} // Asegura el ID como string para evitar bugs de key
+        ListHeaderComponent={renderHeader}
+        ListEmptyComponent={renderEmptyState}
+        contentContainerStyle={styles.listContainer}
+        renderItem={({ item: activity }) => (
+          <View style={styles.cardWrapper}>
+            <InfoCard
+              title={activity.title}
+              subtitle={activity.notes ? activity.notes : 'Sin notas adicionales'}
+              rightText={activity.date}
+            />
+            {/* Botón eliminar corregido por referencia */}
+            <CustomButton
+              title="🗑 Eliminar"
+              onPress={() => deleteActivity(activity.id)} variant={'secondary'}            />
+          </View>
+        )}
+      />
     </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    paddingBottom: 24,
+  },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -73,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   cardWrapper: {
-    marginBottom: 8,
+    marginBottom: 12, // Un poco más de espacio para separar los bloques de cada actividad
   },
   emptyContainer: {
     alignItems: 'center',
