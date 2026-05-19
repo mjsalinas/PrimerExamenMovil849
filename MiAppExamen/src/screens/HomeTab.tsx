@@ -6,6 +6,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import InfoCard from '../components/InfoCard';
 import { ChecklistItem } from '../types';
+import CustomButton from '../components/CustomButton';
 
 /**
  * Pantalla principal con la checklist diaria del cuidado de la mascota.
@@ -14,16 +15,16 @@ import { ChecklistItem } from '../types';
 export default function HomeTab({ navigation }: any) {
   // --- Estado: lista de ítems del checklist ---
   const [checklist, setChecklist] = useState<ChecklistItem[]>([
-    { id: '1', title: '💧 Agua fresca', done: false },
-    { id: '2', title: '🍖 Comida', done: false },
-    { id: '3', title: '🚶 Paseo', done: false },
-    { id: '4', title: '💊 Medicamento', done: false },
+    { id: '1', title: 'Agua fresca', done: false },
+    { id: '2', title: 'Comida', done: false },
+    { id: '3', title: 'Paseo', done: false },
+    { id: '4', title: 'Medicamento', done: false },
   ]);
 
   const toggleItemStatus = (id: string) => {
     setChecklist((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, done: item.done } : item
+        item.id === id ? { ...item, done: !item.done } : item
       )
     );
   };
@@ -44,8 +45,8 @@ export default function HomeTab({ navigation }: any) {
         </Text>
         <Text style={styles.statusText}>
           {completedCount === totalCount
-            ? '🎉 ¡Todo listo por hoy!'
-            : '⏳ Aún hay tareas pendientes'}
+            ? '📋 ¡Todo listo por hoy!'
+            : '📋 Aún hay tareas pendientes'}
         </Text>
       </View>
 
@@ -55,7 +56,7 @@ export default function HomeTab({ navigation }: any) {
           key={item.id}
           title={item.title}
           // --- Ternario: texto condicionado según done ---
-          rightText={item.done ? 'Completado ✅' : 'Pendiente ⏳'}
+          rightText={item.done ? 'Completado 📋' : 'Pendiente 📋'}
           // --- Ternario: variante condicionada según done ---
           variant={item.done ? 'done' : 'default'}
           onPress={() => toggleItemStatus(item.id)}
@@ -65,7 +66,7 @@ export default function HomeTab({ navigation }: any) {
       {/* Botón para ver perfil — navega al Profile del StackNavigator padre */}
       <View style={styles.profileButton}>
         <CustomButton
-          title="Ver perfil 🐶"
+          title="Ver perfil 📋"
           onPress={() => navigation.navigate('Profile')}
           variant="secondary"
         />

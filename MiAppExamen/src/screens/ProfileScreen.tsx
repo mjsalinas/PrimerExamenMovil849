@@ -2,7 +2,7 @@
 // Pantalla: ProfileScreen (Perfil de la mascota)
 // ============================================
 import { useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Alert } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -20,27 +20,38 @@ export default function ProfileScreen({ navigation }: any) {
     breed: 'Golden Retriever',
   });
 
+  // Estados locales independientes para inputs editables
+  const [nameInput, setNameInput] = useState(profile.name);
+  const [ageInput, setAgeInput] = useState(profile.age);
+  const [breedInput, setBreedInput] = useState(profile.breed);
+
   const [editing, setEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   // --- Ternario: validación de edad ---
   const ageError =
-    editing && (profile.age === '' || isNaN(Number(profile.age)))
+    editing && (ageInput.trim() === '' || isNaN(Number(ageInput)))
       ? 'La edad debe ser un número válido'
       : '';
 
-  /** Actualizar un campo del perfil */
-  const updateField = (field: keyof PetProfile, value: string) => {
-    setProfile((prev) => ({ ...prev, [field]: value }));
-    setSaved(false);
-  };
+  // Determinar si hay alguna modificación para mostrar el botón
+  const hasChanges = nameInput !== profile.name || ageInput !== profile.age || breedInput !== profile.breed;
 
   /** Guardar cambios */
   const handleSave = () => {
-    if (ageError) return;
+    if (ageError || ageInput.trim() === '' || isNaN(Number(ageInput))) return;
+    setProfile({
+      name: nameInput,
+      age: ageInput,
+      breed: breedInput,
+    });
     setEditing(false);
-    setSaved(true);
+    Alert.alert('Éxito', '📋 Perfil actualizado correctamente');
   };
+
+  // --- Ternario: Formato del resumen informativo de edad ---
+  const displayAge = profile.age.trim() !== '' && !isNaN(Number(profile.age))
+    ? `${profile.age} ${Number(profile.age) === 1 ? 'año' : 'año(s)'}`
+    : '— (no definida)';
 
   return (
     <ScreenContainer>
@@ -57,7 +68,7 @@ export default function ProfileScreen({ navigation }: any) {
         {profile.breed ? (
           <Text style={styles.petBreed}>{profile.breed}</Text>
         ) : (
-          <Text style={styles.petBreed}>{profile.breed}</Text>
+          <Text style={styles.petBreed}>—</Text>
         )}
       </View>
 
@@ -67,73 +78,53 @@ export default function ProfileScreen({ navigation }: any) {
 
         <Text style={styles.label}>Nombre</Text>
         <CustomInput
-          value={''}
+          value={nameInput}
           placeholder="Nombre de tu mascota"
           onChangeText={(v) => {
             setEditing(true);
-            updateField('name', v);
+            setNameInput(v);
           }}
         />
 
         <Text style={styles.label}>Edad</Text>
         <CustomInput
-          value={profile.age}
+          value={ageInput}
           placeholder="Edad en años"
           onChangeText={(v) => {
             setEditing(true);
-            updateField('age', v);
+            setAgeInput(v);
           }}
           type="number"
-          error={""}
+          error={ageError}
         />
 
-        <Text style={styles.label}>Tipo / Raza</Text>
+        <Text style={styles.label}>Tipo/Raza</Text>
         <CustomInput
-          value={profile.breed}
-          placeholder="Raza o tipo de mascota"
+          value={breedInput}
+          placeholder="Raza de la mascota"
           onChangeText={(v) => {
             setEditing(true);
-            updateField('breed', v);
+            setBreedInput(v);
           }}
         />
 
-        {/* Botones */}
-        <View style={styles.buttonRow}>
-          {/* --- Ternario: mostrar botón guardar solo si está editando --- */}
-          {editing ? (
+        {/* Solo aparece si hay modificaciones */}
+        {hasChanges ? (
+          <View style={styles.btnWrapper}>
             <CustomButton
               title="Guardar Cambios"
               onPress={handleSave}
-              variant="primary"
               disabled={ageError !== ''}
+              variant="primary"
             />
-          ) : null}
-        </View>
-
-        {/* --- Renderizado condicionado: mensaje de guardado exitoso --- */}
-        {saved ? (
-          <Text style={styles.savedMessage}>
-            ✅ Perfil actualizado correctamente
-          </Text>
+          </View>
         ) : null}
       </View>
 
-      {/* Info adicional */}
-      <View style={styles.infoCard}>
-        <Text style={styles.sectionTitle}>📊 Resumen</Text>
-        <Text style={styles.infoText}>
-          🐕 Nombre: {profile.name || '—'}
-        </Text>
-        <Text style={styles.infoText}>
-          🎂 Edad:{' '}
-          {/* --- Ternario: validación de edad para mostrar --- */}
-          {profile.age && !isNaN(Number(profile.age))
-            ? `${profile.age} año${Number(profile.age) !== 1 ? 's' : ''}`
-            : '— (no definida)'}
-        </Text>
-        <Text style={styles.infoText}>
-          🏷️ Raza: {profile.breed || '— (no definida)'}
-        </Text>
+      {/* Sección Resumen Informativo */}
+      <View style={styles.summaryContainer}>
+        <Text style={styles.summaryTitle}>Resumen</Text>
+        <Text style={styles.summaryText}>Edad actual: {displayAge}</Text>
       </View>
     </ScreenContainer>
   );
@@ -142,39 +133,39 @@ export default function ProfileScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginVertical: 20,
   },
   petImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginBottom: 12,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     borderWidth: 3,
     borderColor: '#4A90D9',
+    marginBottom: 10,
   },
   petName: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#263238',
   },
   petBreed: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#78909C',
-    marginTop: 4,
+    marginTop: 2,
   },
   infoCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 20,
-    marginBottom: 16,
+    elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 3,
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: '#263238',
     marginBottom: 12,
@@ -182,23 +173,25 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#455A64',
-    marginBottom: 4,
+    color: '#546E7A',
     marginTop: 8,
   },
-  buttonRow: {
+  btnWrapper: {
     marginTop: 16,
   },
-  savedMessage: {
-    textAlign: 'center',
-    color: '#2E7D32',
-    fontSize: 14,
-    marginTop: 12,
-    fontWeight: '500',
+  summaryContainer: {
+    backgroundColor: '#ECEFF1',
+    borderRadius: 12,
+    padding: 16,
   },
-  infoText: {
+  summaryTitle: {
     fontSize: 15,
+    fontWeight: '700',
+    color: '#37474F',
+    marginBottom: 4,
+  },
+  summaryText: {
+    fontSize: 14,
     color: '#455A64',
-    marginVertical: 4,
   },
 });
