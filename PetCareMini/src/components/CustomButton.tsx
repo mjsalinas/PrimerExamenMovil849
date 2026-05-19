@@ -14,7 +14,7 @@ interface CustomButtonProps {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  variant: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary';
 }
 
 /**
