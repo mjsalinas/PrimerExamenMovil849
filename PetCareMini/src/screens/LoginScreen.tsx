@@ -32,9 +32,10 @@ export default function LoginScreen({ navigation }: any) {
   /** Manejar el intento de inicio de sesión */
   const handleLogin = () => {
     setSubmitted(true);
+
     if (isFormValid) {
-      // Navegar a la tab Home dentro del TabsNavigator
-      navigation.navigate('Tabs', { screen: 'Home' });
+      // Navegar a Tabs y pasar email al stack
+      navigation.navigate('Tabs', { email });
     }
   };
 
@@ -54,7 +55,7 @@ export default function LoginScreen({ navigation }: any) {
 
         {/* Input de correo */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
@@ -74,12 +75,12 @@ export default function LoginScreen({ navigation }: any) {
           <CustomButton
             title="Iniciar Sesión"
             onPress={handleLogin}
-            disabled={isFormValid}
+            disabled={!isFormValid}
             variant="primary"
           />
         </View>
 
-        {isFormValid && submitted ? (
+        {!isFormValid && submitted ? (
           <Text style={styles.helpText}>
             Por favor, corrige los errores para continuar.
           </Text>

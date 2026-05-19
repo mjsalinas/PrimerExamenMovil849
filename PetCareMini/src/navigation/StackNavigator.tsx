@@ -2,7 +2,7 @@
 // Navegación: StackNavigator
 // Stack principal con Login, Tabs y Profile
 // ============================================
-import createNativeStackNavigator from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from '../screens/LoginScreen';
 import TabsNavigator from './TabsNavigator';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -13,7 +13,7 @@ export type RootStackParamList = {
   Profile: undefined;
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function StackNavigator() {
   return (
