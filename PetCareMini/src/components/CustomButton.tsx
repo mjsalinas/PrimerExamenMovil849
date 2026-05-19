@@ -2,16 +2,8 @@
 // Componente reutilizable: CustomButton
 // ============================================
 import React from 'react';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
-
-/** Props del botón */
 interface CustomButtonProps {
   title: string;
   onPress: () => void;
@@ -19,34 +11,25 @@ interface CustomButtonProps {
   variant?: 'primary' | 'secondary';
 }
 
-/**
- * Botón reutilizable con variantes
- * y estado deshabilitado.
- */
 export default function CustomButton({
   title,
   onPress,
   disabled = false,
   variant = 'primary',
 }: CustomButtonProps) {
-  // --- Estilo dinámico del botón ---
-  const buttonStyle: ViewStyle = {
-    ...(variant === 'primary'
-      ? styles.primary
-      : styles.secondary),
+  const buttonStyle: ViewStyle =
+    variant === 'primary' ? styles.primary : styles.secondary;
 
-    ...(disabled ? styles.disabled : {}),
-  };
-
-  // --- Estilo dinámico del texto ---
   const textStyle: TextStyle =
-    variant === 'primary'
-      ? styles.primaryText
-      : styles.secondaryText;
+    variant === 'primary' ? styles.primaryText : styles.secondaryText;
 
   return (
     <TouchableOpacity
-      style={[styles.base, buttonStyle]}
+      style={[
+        styles.base,
+        buttonStyle,
+        disabled ? styles.disabled : null,
+      ]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
@@ -55,7 +38,7 @@ export default function CustomButton({
         style={[
           styles.baseText,
           textStyle,
-          disabled && styles.disabledText,
+          disabled ? styles.disabledText : null,
         ]}
       >
         {title}
@@ -73,34 +56,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 6,
   },
-
   primary: {
     backgroundColor: '#4A90D9',
   },
-
   secondary: {
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
-
   disabled: {
     backgroundColor: '#B0BEC5',
+    borderColor: '#B0BEC5',
   },
-
   baseText: {
     fontSize: 16,
     fontWeight: '600',
   },
-
   primaryText: {
     color: '#FFFFFF',
   },
-
   secondaryText: {
     color: '#4A90D9',
   },
-
   disabledText: {
     color: '#ECEFF1',
   },

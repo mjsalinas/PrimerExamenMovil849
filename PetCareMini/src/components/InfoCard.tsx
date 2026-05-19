@@ -3,7 +3,6 @@
 // ============================================
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
-/** Props de la tarjeta informativa */
 interface InfoCardProps {
   title: string;
   subtitle?: string;
@@ -12,10 +11,6 @@ interface InfoCardProps {
   variant?: 'default' | 'done';
 }
 
-/**
- * Tarjeta reutilizable para mostrar información.
- * Usa ternarios para cambiar estilo según variante (done / default).
- */
 export default function InfoCard({
   title,
   subtitle,
@@ -23,28 +18,30 @@ export default function InfoCard({
   onPress,
   variant = 'default',
 }: InfoCardProps) {
-  // --- Ternario: estilo condicionado según variante ---
-  const cardStyle =
-    variant === 'done' ? styles.cardDone : styles.cardDefault;
-
-  const titleStyle =
-    variant === 'done' ? styles.titleDone : styles.titleDefault;
-
   const content = (
-    <View style={[styles.card, cardStyle]}>
+    <View
+      style={[
+        styles.card,
+        variant === 'done' ? styles.cardDone : styles.cardDefault,
+      ]}
+    >
       <View style={styles.leftContent}>
-        <Text style={[styles.title, titleStyle]}>{title}</Text>
-        {/* --- Renderizado condicionado: subtítulo --- */}
+        <Text
+          style={[
+            styles.title,
+            variant === 'done' ? styles.titleDone : styles.titleDefault,
+          ]}
+        >
+          {title}
+        </Text>
+
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
-      {/* --- Renderizado condicionado: texto derecho --- */}
-      {rightText ? (
-        <Text style={styles.rightText}>{rightText}</Text>
-      ) : null}
+
+      {rightText ? <Text style={styles.rightText}>{rightText}</Text> : null}
     </View>
   );
 
-  // Si tiene onPress, envolver en TouchableOpacity
   if (onPress) {
     return (
       <TouchableOpacity onPress={onPress} activeOpacity={0.7}>

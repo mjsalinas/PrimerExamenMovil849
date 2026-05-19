@@ -2,11 +2,16 @@
 // Componente reutilizable: CustomInput
 // ============================================
 import { useState } from 'react';
-import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  KeyboardTypeOptions,
+  TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
 
-/** Props del input personalizado */
 interface CustomInputProps {
   value: string;
   placeholder: string;
@@ -15,69 +20,60 @@ interface CustomInputProps {
   error?: string;
 }
 
-/**
- * Input reutilizable con soporte para distintos tipos,
- * toggle de visibilidad para contraseñas y mensajes de error.
- */
 export default function CustomInput({
   value,
   placeholder,
   onChangeText,
   type = 'text',
-  error,
+  error = '',
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  // --- Ternario: determinar keyboardType según el tipo de input ---
   const getKeyboardType = (): KeyboardTypeOptions => {
     if (type === 'email') return 'email-address';
     if (type === 'number') return 'numeric';
     return 'default';
   };
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
-    };
-    
-    error = getError();
-
-  // --- Ternario: ocultar texto si es password y no se muestra ---
-  const isSecure = type === 'password' && !showPassword;
+  const isPassword = type === 'password';
+  const secureTextEntry = isPassword && !showPassword;
 
   return (
-      
-      <View style={[styles.inputWrapper, error?styles.inputError:styles.inputNormal]}>
+    <View style={styles.container}>
+      <View
+        style={[
+          styles.inputWrapper,
+          error ? styles.inputError : styles.inputNormal,
+        ]}
+      >
         <TextInput
           style={styles.input}
           value={value}
           placeholder={placeholder}
           onChangeText={onChangeText}
           keyboardType={getKeyboardType()}
-          secureTextEntry={isSecure}
+          secureTextEntry={secureTextEntry}
           autoCapitalize={type === 'email' ? 'none' : 'sentences'}
           placeholderTextColor="#90A4AE"
         />
 
-        {/* Toggle ojo para password */}
-
-        {type === 'password' && (
+        {isPassword ? (
           <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
+            onPress={() => setShowPassword((prev) => !prev)}
             style={styles.eyeButton}
-            >
+            activeOpacity={0.7}
+          >
             <Ionicons
-              name={showPassword ? 'eye-off' : 'eye-outline'}
+              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
               size={22}
               color="#607D8B"
             />
-            </TouchableOpacity>
-        )}
-        <Text style={styles.errorText}>{error}</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
-      
+
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+    </View>
   );
 }
 
