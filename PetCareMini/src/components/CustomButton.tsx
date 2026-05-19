@@ -14,7 +14,7 @@ interface CustomButtonProps {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  variant: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary';
 }
 
 /**
@@ -28,10 +28,7 @@ export default function CustomButton({
   variant = 'primary',
 }: CustomButtonProps) {
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
-  const buttonStyle: ViewStyle = {
-    ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
-  };
+  const buttonStyle = variant === 'primary' ? styles.primary : styles.secondary;
 
   // --- Ternario: color del texto según variante ---
   const textStyle: TextStyle =
@@ -39,13 +36,13 @@ export default function CustomButton({
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
-      onPress={onPress}
+      style={[styles.base, buttonStyle, disabled && styles.disabled]}
+      onPress={disabled ? undefined : onPress}
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
-        {title}
+      <Text style={[styles.baseText, textStyle, disabled && styles.disabledText]}>
+      {title}
       </Text>
     </TouchableOpacity>
   );
@@ -79,5 +76,11 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: '#4A90D9',
   },
-  
+  disabled: {
+  backgroundColor: '#B0BEC5',
+  borderColor: '#B0BEC5',
+  },
+  disabledText: {
+  color: '#ECEFF1',
+},
 });

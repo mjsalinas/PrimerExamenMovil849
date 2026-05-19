@@ -35,15 +35,6 @@ export default function CustomInput({
     return 'default';
   };
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
-    };
-    
-    error = getError();
-
   // --- Ternario: ocultar texto si es password y no se muestra ---
   const isSecure = type === 'password' && !showPassword;
 
