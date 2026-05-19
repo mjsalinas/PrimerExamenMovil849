@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-native": "^0.84.0"
+    "react": "^19.2.6",
+    "react-native": "^0.84.1"
   }
 }
