@@ -7,18 +7,13 @@ import InfoCard from '../components/InfoCard';
 import CustomButton from '../components/CustomButton';
 import { useActivities } from '../context/ActivityContext';
 
-/**
- * Muestra el historial de actividades registradas.
- * Demuestra renderizado condicionado con ternario para estado vacío.
- */
-export default function HistoryTab({ navigation }: any) {
+export default function HistoryTab() {
   const { activities, deleteActivity } = useActivities();
 
   return (
     <ScreenContainer>
       <Text style={styles.header}>📜 Historial de Actividades</Text>
 
-      {/* --- Ternario: estado vacío vs lista de actividades --- */}
       {activities.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyIcon}>📭</Text>
@@ -33,8 +28,9 @@ export default function HistoryTab({ navigation }: any) {
         <View>
           <Text style={styles.countText}>
             {activities.length}{' '}
-            {activities.length === 1 ? 'actividad' : 'actividades'} registrada
-            {activities.length === 1 ? '' : 's'}
+            {activities.length === 1
+              ? 'actividad registrada'
+              : 'actividades registradas'}
           </Text>
 
           {activities.map((activity) => (
@@ -42,15 +38,20 @@ export default function HistoryTab({ navigation }: any) {
               <InfoCard
                 title={activity.title}
                 subtitle={
-                  activity.notes ? activity.notes : 'Sin notas adicionales'
+                  activity.notes && activity.notes.trim() !== ''
+                    ? activity.notes
+                    : 'Sin notas adicionales'
                 }
                 rightText={activity.date}
               />
-              {/* Botón eliminar */}
-              <CustomButton
-                title="🗑 Eliminar"
-                onPress={() => deleteActivity(activity.id)}
-              />
+
+              <View style={styles.buttonContainer}>
+                <CustomButton
+                  title="🗑 Eliminar"
+                  onPress={() => deleteActivity(activity.id)}
+                  variant="secondary"
+                />
+              </View>
             </View>
           ))}
         </View>
@@ -72,7 +73,10 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   cardWrapper: {
-    marginBottom: 8,
+    marginBottom: 12,
+  },
+  buttonContainer: {
+    marginTop: 8,
   },
   emptyContainer: {
     alignItems: 'center',
