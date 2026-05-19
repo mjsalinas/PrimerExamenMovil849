@@ -67,7 +67,7 @@ export default function ProfileScreen({ navigation }: any) {
 
         <Text style={styles.label}>Nombre</Text>
         <CustomInput
-          value={''}
+          value={profile.name}
           placeholder="Nombre de tu mascota"
           onChangeText={(v) => {
             setEditing(true);
@@ -84,7 +84,7 @@ export default function ProfileScreen({ navigation }: any) {
             updateField('age', v);
           }}
           type="number"
-          error={""}
+          error={ageError}
         />
 
         <Text style={styles.label}>Tipo / Raza</Text>
@@ -113,7 +113,7 @@ export default function ProfileScreen({ navigation }: any) {
         {/* --- Renderizado condicionado: mensaje de guardado exitoso --- */}
         {saved ? (
           <Text style={styles.savedMessage}>
-            ✅ Perfil actualizado correctamente
+            🐾 Perfil actualizado correctamente
           </Text>
         ) : null}
       </View>
