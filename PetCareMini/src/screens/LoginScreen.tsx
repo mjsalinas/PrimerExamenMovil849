@@ -27,12 +27,12 @@ export default function LoginScreen({ navigation }: any) {
       : '';
 
   // --- Ternario: determinar si el formulario es válido ---
-  const isFormValid = email.includes('@') && password.length >= 6;
+  const isFormValid = password.length >= 6;
 
   /** Manejar el intento de inicio de sesión */
   const handleLogin = () => {
     setSubmitted(true);
-    if (isFormValid) {
+    if (isFormValid && email.includes('@')) {
       // Navegar a la tab Home dentro del TabsNavigator
       navigation.navigate('Tabs', { screen: 'Home' });
     }
@@ -54,7 +54,7 @@ export default function LoginScreen({ navigation }: any) {
 
         {/* Input de correo */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
@@ -80,14 +80,17 @@ export default function LoginScreen({ navigation }: any) {
         </View>
 
         {isFormValid && submitted ? (
-          <Text style={styles.helpText}>
-            Por favor, corrige los errores para continuar.
+          <Text style={styles.helpText}> 
+            El correo debe incluir @
+            
           </Text>
         ) : null}
       </View>
     </ScreenContainer>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   logoContainer: {
