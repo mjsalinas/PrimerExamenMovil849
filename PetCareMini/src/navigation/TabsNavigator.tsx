@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 export default function TabsNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route }: { route: { name: keyof TabParamList } }) => ({
         headerShown: false,
         tabBarActiveTintColor: '#4A90D9',
         tabBarInactiveTintColor: '#90A4AE',
@@ -34,7 +34,7 @@ export default function TabsNavigator() {
           fontSize: 12,
           fontWeight: '600' as const,
         },
-        tabBarIcon: ({ color, size }) => {
+        tabBarIcon: ({ color, size }: { color: string; size: number }) => {
           let iconName: keyof typeof Ionicons.glyphMap = 'home';
 
           if (route.name === 'Home') {
@@ -50,13 +50,13 @@ export default function TabsNavigator() {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeTab}
         options={{ tabBarLabel: 'Inicio' }}
       />
       <Tab.Screen
         name="AddActivity"
-        component={AddActivity}
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen
