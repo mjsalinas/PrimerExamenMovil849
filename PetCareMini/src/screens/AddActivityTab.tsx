@@ -87,7 +87,7 @@ export default function AddActivityTab({ navigation }: any) {
         <View style={styles.buttonContainer}>
           <CustomButton
             title="Guardar Actividad"
-            onPress={()=>{}}
+            onPress={handleSave}
             disabled={!isValid}
             variant="primary"
           />
