@@ -38,16 +38,22 @@ export default function CustomButton({
     variant === 'primary' ? styles.primaryText : styles.secondaryText;
 
   return (
-    <TouchableOpacity
-      style={[styles.base]}
-      onPress={onPress}
-      disabled={disabled}
-      activeOpacity={0.7}
-    >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
-        {title}
-      </Text>
-    </TouchableOpacity>
+      <TouchableOpacity
+          style={[styles.base, buttonStyle]}
+          onPress={onPress}
+          disabled={disabled}
+          activeOpacity={0.7}
+      >
+        <Text
+            style={[
+              styles.baseText,
+              textStyle,
+              disabled && { opacity: 0.6 },
+            ]}
+        >
+          {title}
+        </Text>
+      </TouchableOpacity>
   );
 }
 

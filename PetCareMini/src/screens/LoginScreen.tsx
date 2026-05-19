@@ -54,7 +54,7 @@ export default function LoginScreen({ navigation }: any) {
 
         {/* Input de correo */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
@@ -74,7 +74,7 @@ export default function LoginScreen({ navigation }: any) {
           <CustomButton
             title="Iniciar Sesión"
             onPress={handleLogin}
-            disabled={isFormValid}
+            disabled={!isFormValid}
             variant="primary"
           />
         </View>
