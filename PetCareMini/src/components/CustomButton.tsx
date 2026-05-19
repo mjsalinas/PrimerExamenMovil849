@@ -1,6 +1,7 @@
 // ============================================
 // Componente reutilizable: CustomButton
 // ============================================
+import React from 'react';
 import {
   TouchableOpacity,
   Text,
@@ -19,7 +20,6 @@ interface CustomButtonProps {
 
 /**
  * Botón reutilizable con soporte para variantes y estado deshabilitado.
- * Usa operadores ternarios para cambiar estilos según la variante y si está deshabilitado.
  */
 export default function CustomButton({
   title,
@@ -27,24 +27,28 @@ export default function CustomButton({
   disabled = false,
   variant = 'primary',
 }: CustomButtonProps) {
-  // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
     ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
+    ...(disabled ? styles.baseDisabled : {}),
   };
 
-  // --- Ternario: color del texto según variante ---
   const textStyle: TextStyle =
     variant === 'primary' ? styles.primaryText : styles.secondaryText;
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
+      style={[styles.base, buttonStyle]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
+      <Text
+        style={[
+          styles.baseText,
+          textStyle,
+          disabled ? styles.textDisabled : null,
+        ]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -68,7 +72,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
-  
+
+  baseDisabled: {
+    opacity: 0.6,
+  },
+
   baseText: {
     fontSize: 16,
     fontWeight: '600',
@@ -79,5 +87,8 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: '#4A90D9',
   },
-  
+  textDisabled: {
+    // Si quieres ajustar color extra cuando está disabled
+  },
 });
+

@@ -53,12 +53,7 @@ export default function ProfileScreen({ navigation }: any) {
           style={styles.petImage}
         />
         <Text style={styles.petName}>{profile.name || 'Mi Mascota'}</Text>
-        {/* --- Ternario: mostrar raza si existe --- */}
-        {profile.breed ? (
-          <Text style={styles.petBreed}>{profile.breed}</Text>
-        ) : (
-          <Text style={styles.petBreed}>{profile.breed}</Text>
-        )}
+        <Text style={styles.petBreed}>{profile.breed || '—'}</Text>
       </View>
 
       {/* Tarjeta de información */}
