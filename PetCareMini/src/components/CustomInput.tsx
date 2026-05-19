@@ -35,21 +35,12 @@ export default function CustomInput({
     return 'default';
   };
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
-    };
-    
-    error = getError();
-
   // --- Ternario: ocultar texto si es password y no se muestra ---
   const isSecure = type === 'password' && !showPassword;
 
   return (
-      
-      <View style={[styles.inputWrapper, error?styles.inputError:styles.inputNormal]}>
+    <>
+      <View style={[styles.inputWrapper, error ? styles.inputError : styles.inputNormal]}>
         <TextInput
           style={styles.input}
           value={value}
@@ -62,22 +53,21 @@ export default function CustomInput({
         />
 
         {/* Toggle ojo para password */}
-
         {type === 'password' && (
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
             style={styles.eyeButton}
-            >
+          >
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye-outline'}
               size={22}
               color="#607D8B"
             />
-            </TouchableOpacity>
+          </TouchableOpacity>
         )}
-        <Text style={styles.errorText}>{error}</Text>
       </View>
-      
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+    </>
   );
 }
 
