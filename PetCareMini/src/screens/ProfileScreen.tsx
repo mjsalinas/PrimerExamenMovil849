@@ -84,7 +84,7 @@ export default function ProfileScreen({ navigation }: any) {
             updateField('age', v);
           }}
           type="number"
-          error={""}
+          error={ageError}
         />
 
         <Text style={styles.label}>Tipo / Raza</Text>
