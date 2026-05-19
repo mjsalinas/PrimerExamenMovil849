@@ -53,11 +53,12 @@ export default function ProfileScreen({ navigation }: any) {
           style={styles.petImage}
         />
         <Text style={styles.petName}>{profile.name || 'Mi Mascota'}</Text>
-        {/* --- Ternario: mostrar raza si existe --- */}
+        
+        {/* --- Ternario: mostrar raza o texto alternativo si no existe (CORREGIDO) --- */}
         {profile.breed ? (
           <Text style={styles.petBreed}>{profile.breed}</Text>
         ) : (
-          <Text style={styles.petBreed}>{profile.breed}</Text>
+          <Text style={styles.petBreed}>Sin raza definida</Text>
         )}
       </View>
 
@@ -66,8 +67,9 @@ export default function ProfileScreen({ navigation }: any) {
         <Text style={styles.sectionTitle}>🐾 Información de la Mascota</Text>
 
         <Text style={styles.label}>Nombre</Text>
+        {/* CORREGIDO: value ahora está asociado a profile.name en vez de un string vacío */}
         <CustomInput
-          value={''}
+          value={profile.name}
           placeholder="Nombre de tu mascota"
           onChangeText={(v) => {
             setEditing(true);
@@ -76,6 +78,7 @@ export default function ProfileScreen({ navigation }: any) {
         />
 
         <Text style={styles.label}>Edad</Text>
+        {/* CORREGIDO: error ahora muestra dinámicamente el valor de ageError */}
         <CustomInput
           value={profile.age}
           placeholder="Edad en años"
@@ -84,7 +87,7 @@ export default function ProfileScreen({ navigation }: any) {
             updateField('age', v);
           }}
           type="number"
-          error={""}
+          error={ageError}
         />
 
         <Text style={styles.label}>Tipo / Raza</Text>

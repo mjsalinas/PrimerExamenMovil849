@@ -31,7 +31,6 @@ export default function HistoryTab({ navigation }: any) {
         </View>
       ) : (
         <View>
-          {/* CORREGIDO: Sintaxis y concordancia del texto del contador en plural y singular */}
           <Text style={styles.countText}>
             {activities.length}{' '}
             {activities.length === 1 ? 'actividad registrada' : 'actividades registradas'}
