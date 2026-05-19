@@ -49,8 +49,8 @@ export default function HistoryTab({ navigation }: any) {
               {/* Botón eliminar */}
               <CustomButton
                 title="🗑 Eliminar"
-                onPress={() => deleteActivity(activity.id)}
-              />
+                /**FALTABA ATRIBUTO DE LA VARIABLE VARIANTE PARA ESTABLECER EL ESTILO DEL BOTÓN */
+                onPress={() => deleteActivity(activity.id)} variant={'primary'}/>
             </View>
           ))}
         </View>
