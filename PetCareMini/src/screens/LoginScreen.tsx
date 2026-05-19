@@ -70,7 +70,9 @@ export default function LoginScreen({ navigation }: any) {
           error={passwordError}
         />
 
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer,
+          { backgroundColor: isFormValid ? 'blue' : 'gray' }
+        ]}>
           <CustomButton
             title="Iniciar Sesión"
             onPress={handleLogin}
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 12,
+    
   },
   helpText: {
     textAlign: 'center',
