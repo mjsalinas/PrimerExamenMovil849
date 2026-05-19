@@ -1,5 +1,4 @@
-import { MaterialIcons }  from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar'
+
 // ============================================
 // Componente reutilizable: CustomButton
 // ============================================
@@ -31,24 +30,26 @@ export default function CustomButton({
 }: CustomButtonProps) {
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
+    ...styles.base,
     ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
+    ...(disabled ? styles.disabled : {}),
   };
 
-  // --- Ternario: color del texto según variante ---
-  const textStyle: TextStyle =
-    variant === 'primary' ? styles.primaryText : styles.secondaryText;
+  // --- Ternario: color del texto según variante y estado disabled ---
+  const textStyle: TextStyle = disabled
+    ? styles.disabledText
+    : variant === 'primary'
+    ? styles.primaryText
+    : styles.secondaryText;
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
+      style={buttonStyle}
       onPress={onPress}
       disabled={disabled}
-      activeOpacity={0.7}
+      activeOpacity={disabled ? 1 : 0.7}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
-        {title}
-      </Text>
+      <Text style={[styles.baseText, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -70,6 +71,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
+  disabled: {
+    backgroundColor: '#B0BEC5',
+  },
   
   baseText: {
     fontSize: 16,
@@ -81,5 +85,7 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: '#4A90D9',
   },
-  
+  disabledText: {
+    color: '#ECEFF1',
+  },
 });

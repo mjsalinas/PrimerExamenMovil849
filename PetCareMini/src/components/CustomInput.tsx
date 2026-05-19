@@ -1,3 +1,5 @@
+import { MaterialIcons }  from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar'
 // ============================================
 // Componente reutilizable: CustomInput
 // ============================================
@@ -13,6 +15,7 @@ interface CustomInputProps {
   onChangeText: (text: string) => void;
   type?: 'text' | 'email' | 'password' | 'number';
   error?: string;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 /**
@@ -25,6 +28,7 @@ export default function CustomInput({
   onChangeText,
   type = 'text',
   error,
+  keyboardType,
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,27 +39,26 @@ export default function CustomInput({
     return 'default';
   };
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
-    };
-    
-    error = getError();
+  const computedError =
+    error ??
+    (type === 'email' && value !== '' && !value.includes('@')
+      ? 'Correo inválido'
+      : type === 'password' && value !== '' && value.length < 6
+      ? 'La contraseña debe ser mas fuerte'
+      : '');
 
   // --- Ternario: ocultar texto si es password y no se muestra ---
   const isSecure = type === 'password' && !showPassword;
 
   return (
       
-      <View style={[styles.inputWrapper, error?styles.inputError:styles.inputNormal]}>
+      <View style={[styles.inputWrapper, computedError ? styles.inputError : styles.inputNormal]}>
         <TextInput
           style={styles.input}
           value={value}
           placeholder={placeholder}
           onChangeText={onChangeText}
-          keyboardType={getKeyboardType()}
+          keyboardType={keyboardType ?? getKeyboardType()}
           secureTextEntry={isSecure}
           autoCapitalize={type === 'email' ? 'none' : 'sentences'}
           placeholderTextColor="#90A4AE"
@@ -75,7 +78,7 @@ export default function CustomInput({
             />
             </TouchableOpacity>
         )}
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.errorText}>{computedError}</Text>
       </View>
       
   );
