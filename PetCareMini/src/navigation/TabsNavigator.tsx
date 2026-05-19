@@ -49,14 +49,20 @@ export default function TabsNavigator() {
         },
       })}
     >
+
+
+      /**tab corregido el name correcto era Home no HomeScreen */
       <Tab.Screen
-        name="HomeScreen"
+        //name="HomeScreen"
+        name="Home"
         component={HomeTab}
         options={{ tabBarLabel: 'Inicio' }}
       />
       <Tab.Screen
         name="AddActivity"
-        component={AddActivity}
+        /**Componente con variable incorrecta -- La correcta es AddActivityTab y no AddActivity */
+        //component={AddActivity}
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen

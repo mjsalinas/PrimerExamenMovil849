@@ -4,6 +4,7 @@
 // ============================================
 
 /*import createNativeStackNavigator from '@react-navigation/native-stack'; */
+/**CORREGIDO IMPORT  */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from '../screens/LoginScreen';
