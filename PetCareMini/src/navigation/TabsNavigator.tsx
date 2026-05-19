@@ -8,7 +8,7 @@ import AddActivityTab from '../screens/AddActivityTab';
 import HistoryTab from '../screens/HistoryTab';
 
 export type TabParamList = {
-  Home: undefined;
+  HomeScreen: undefined;
   AddActivity: undefined;
   History: undefined;
 };
@@ -37,7 +37,7 @@ export default function TabsNavigator() {
         tabBarIcon: ({ color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap = 'home';
 
-          if (route.name === 'Home') {
+          if (route.name === 'HomeScreen') {
             iconName = 'checkmark-circle-outline';
           } else if (route.name === 'AddActivity') {
             iconName = 'add-circle-outline';
@@ -56,7 +56,7 @@ export default function TabsNavigator() {
       />
       <Tab.Screen
         name="AddActivity"
-        component={AddActivity}
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen
