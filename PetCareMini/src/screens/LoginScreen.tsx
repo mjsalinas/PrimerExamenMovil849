@@ -33,7 +33,6 @@ export default function LoginScreen({ navigation }: any) {
   const handleLogin = () => {
     setSubmitted(true);
     if (isFormValid) {
-      // Navegar a la tab Home dentro del TabsNavigator
       navigation.navigate('Tabs', { screen: 'Home' });
     }
   };
@@ -52,9 +51,9 @@ export default function LoginScreen({ navigation }: any) {
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Iniciar Sesión</Text>
 
-        {/* Input de correo */}
+        {/* Input de correo - CORREGIDO: value ahora lee el estado email */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
@@ -70,16 +69,18 @@ export default function LoginScreen({ navigation }: any) {
           error={passwordError}
         />
 
+        {/* Botón - CORREGIDO: disabled se activa si el formulario NO es válido */}
         <View style={styles.buttonContainer}>
           <CustomButton
             title="Iniciar Sesión"
             onPress={handleLogin}
-            disabled={isFormValid}
+            disabled={!isFormValid}
             variant="primary"
           />
         </View>
 
-        {isFormValid && submitted ? (
+        {/* Mensaje de error - CORREGIDO: se muestra cuando el formulario NO es válido pero ya se presionó el botón */}
+        {!isFormValid && submitted ? (
           <Text style={styles.helpText}>
             Por favor, corrige los errores para continuar.
           </Text>
