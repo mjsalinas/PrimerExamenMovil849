@@ -9,30 +9,23 @@ import CustomButton from '../components/CustomButton';
 import { useActivities } from '../context/ActivityContext';
 import { Activity } from '../types';
 
-/**
- * Formulario para registrar una nueva actividad.
- * Demuestra validación condicionada y estado local.
- */
-export default function AddActivityTab({ navigation }: any) {
+export default function AddActivityTab() {
   const { addActivity } = useActivities();
 
-  // --- Estado local ---
   const [activityTitle, setActivityTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  // --- Ternario: error si el título está vacío ---
   const titleError =
     submitted && activityTitle.trim() === ''
       ? 'El tipo de actividad es obligatorio'
       : '';
 
-  // --- Ternario: el formulario es válido si el título no está vacío ---
   const isValid = activityTitle.trim() !== '';
 
-  /** Guardar la actividad */
   const handleSave = () => {
     setSubmitted(true);
+
     if (!isValid) return;
 
     const newActivity: Activity = {
@@ -50,12 +43,11 @@ export default function AddActivityTab({ navigation }: any) {
 
     addActivity(newActivity);
 
-    // Limpiar inputs
     setActivityTitle('');
     setNotes('');
     setSubmitted(false);
 
-    // Confirmación
+    Alert.alert('Éxito', 'La actividad se registró correctamente.');
   };
 
   return (
@@ -66,7 +58,6 @@ export default function AddActivityTab({ navigation }: any) {
       </Text>
 
       <View style={styles.formContainer}>
-        {/* Input: tipo de actividad */}
         <Text style={styles.label}>Tipo de actividad</Text>
         <CustomInput
           value={activityTitle}
@@ -75,7 +66,6 @@ export default function AddActivityTab({ navigation }: any) {
           error={titleError}
         />
 
-        {/* Input: notas */}
         <Text style={styles.label}>Notas (opcional)</Text>
         <CustomInput
           value={notes}
@@ -83,12 +73,11 @@ export default function AddActivityTab({ navigation }: any) {
           onChangeText={setNotes}
         />
 
-        {/* --- Ternario: botón deshabilitado si no es válido --- */}
         <View style={styles.buttonContainer}>
           <CustomButton
             title="Guardar Actividad"
-            onPress={()=>{}}
-            disabled={isValid}
+            onPress={handleSave}
+            disabled={!isValid}
             variant="primary"
           />
         </View>
