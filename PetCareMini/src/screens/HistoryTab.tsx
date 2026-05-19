@@ -31,10 +31,10 @@ export default function HistoryTab({ navigation }: any) {
         </View>
       ) : (
         <View>
+          {/* CORREGIDO: Sintaxis y concordancia del texto del contador en plural y singular */}
           <Text style={styles.countText}>
             {activities.length}{' '}
-            {activities.length === 1 ? 'actividad' : 'actividades'} registrada
-            {activities.length === 1 ? '' : 's'}
+            {activities.length === 1 ? 'actividad registrada' : 'actividades registradas'}
           </Text>
 
           {activities.map((activity) => (
@@ -46,10 +46,10 @@ export default function HistoryTab({ navigation }: any) {
                 }
                 rightText={activity.date}
               />
-              {/* Botón eliminar */}
               <CustomButton
                 title="🗑 Eliminar"
                 onPress={() => deleteActivity(activity.id)}
+                variant="danger"
               />
             </View>
           ))}

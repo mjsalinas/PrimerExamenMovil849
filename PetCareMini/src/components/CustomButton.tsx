@@ -14,7 +14,7 @@ type Props =  {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'danger';
 }
 
 /**
@@ -29,13 +29,20 @@ export default function CustomButton({
 }: Props) {
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
-    ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? styles.disabledContainer : {}), 
+    ...(variant === 'primary' 
+        ? styles.primary 
+        : variant === 'secondary' 
+        ? styles.secondary 
+        : styles.danger),
   };
 
   // --- Ternario: color del texto según variante ---
   const textStyle: TextStyle =
-    variant === 'primary' ? styles.primaryText : styles.secondaryText;
+    variant === 'primary' 
+      ? styles.primaryText 
+      : variant === 'secondary' 
+      ? styles.secondaryText 
+      : styles.dangerText;
 
   return (
     <TouchableOpacity
@@ -68,6 +75,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
+  danger: {
+    backgroundColor: '#E53935', 
+  },
   disabledContainer: {
     opacity: 0.5, 
   },
@@ -80,5 +90,8 @@ const styles = StyleSheet.create({
   },
   secondaryText: {
     color: '#4A90D9',
+  },
+  dangerText: {
+    color: '#FFFFFF',
   },
 });
