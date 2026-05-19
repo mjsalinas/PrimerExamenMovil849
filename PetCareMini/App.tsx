@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import StackNavigator from './src/navigation/StackNavigator';
 import { ActivityProvider } from './src/context/ActivityContext';
+import { navigationRef } from './src/navigation/NavigationService';
 
 /**
  * Componente raíz de la aplicación PetCare Mini.
@@ -14,7 +15,7 @@ import { ActivityProvider } from './src/context/ActivityContext';
 export default function App() {
   return (
     <ActivityProvider>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <StatusBar barStyle="light-content" backgroundColor="#4A90D9" />
         <StackNavigator />
       </NavigationContainer>
