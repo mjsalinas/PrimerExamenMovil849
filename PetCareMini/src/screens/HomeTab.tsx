@@ -6,6 +6,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import InfoCard from '../components/InfoCard';
 import { ChecklistItem } from '../types';
+//Faltaba import de CustomButton para el botón de perfil
+import CustomButton from '../components/CustomButton';
 
 /**
  * Pantalla principal con la checklist diaria del cuidado de la mascota.
