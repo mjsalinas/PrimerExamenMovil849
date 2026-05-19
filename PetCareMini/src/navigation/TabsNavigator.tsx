@@ -50,7 +50,7 @@ export default function TabsNavigator() {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeTab}
         options={{ tabBarLabel: 'Inicio' }}
       />

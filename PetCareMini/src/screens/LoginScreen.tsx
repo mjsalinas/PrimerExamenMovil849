@@ -19,22 +19,28 @@ export default function LoginScreen({ navigation }: any) {
 
   // --- Validaciones ---
   const emailError =
-    submitted && !email.includes('@') ? 'El correo debe incluir @' : '';
+    submitted && !email.includes('@')
+      ? 'El correo debe incluir @'
+      : '';
 
   const passwordError =
     submitted && password.length < 6
       ? 'La contraseña debe tener al menos 6 caracteres'
       : '';
 
-  // --- Ternario: determinar si el formulario es válido ---
-  const isFormValid = email.includes('@') && password.length >= 6;
+  // --- Determinar si el formulario es válido ---
+  const isFormValid =
+    email.includes('@') && password.length >= 6;
 
-  /** Manejar el intento de inicio de sesión */
+  /** Manejar inicio de sesión */
   const handleLogin = () => {
     setSubmitted(true);
+
     if (isFormValid) {
-      // Navegar a la tab Home dentro del TabsNavigator
-      navigation.navigate('Tabs', { screen: 'Home' });
+      // Navegar a Tabs -> Home
+      navigation.navigate('Tabs', {
+        screen: 'Home',
+      });
     }
   };
 
@@ -42,26 +48,34 @@ export default function LoginScreen({ navigation }: any) {
     <ScreenContainer>
       <View style={styles.logoContainer}>
         <Image
-          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/616/616408.png' }}
+          source={{
+            uri: 'https://cdn-icons-png.flaticon.com/512/616/616408.png',
+          }}
           style={styles.logo}
         />
+
         <Text style={styles.appTitle}>🐾 PetCare Mini</Text>
-        <Text style={styles.subtitle}>Cuida a tu mascota cada día</Text>
+
+        <Text style={styles.subtitle}>
+          Cuida a tu mascota cada día
+        </Text>
       </View>
 
       <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Iniciar Sesión</Text>
+        <Text style={styles.formTitle}>
+          Iniciar Sesión
+        </Text>
 
-        {/* Input de correo */}
+        {/* Input correo */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
           error={emailError}
         />
 
-        {/* Input de contraseña */}
+        {/* Input contraseña */}
         <CustomInput
           value={password}
           placeholder="Contraseña"
@@ -74,12 +88,13 @@ export default function LoginScreen({ navigation }: any) {
           <CustomButton
             title="Iniciar Sesión"
             onPress={handleLogin}
-            disabled={isFormValid}
+            disabled={!isFormValid}
             variant="primary"
           />
         </View>
 
-        {isFormValid && submitted ? (
+        {/* Mensaje general */}
+        {submitted && !isFormValid ? (
           <Text style={styles.helpText}>
             Por favor, corrige los errores para continuar.
           </Text>
@@ -95,32 +110,42 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 30,
   },
+
   logo: {
     width: 100,
     height: 100,
     borderRadius: 50,
     marginBottom: 16,
   },
+
   appTitle: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#263238',
   },
+
   subtitle: {
     fontSize: 15,
     color: '#78909C',
     marginTop: 4,
   },
+
   formContainer: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 24,
+
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 3,
   },
+
   formTitle: {
     fontSize: 20,
     fontWeight: '700',
@@ -128,9 +153,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
   },
+
   buttonContainer: {
     marginTop: 12,
   },
+
   helpText: {
     textAlign: 'center',
     color: '#E53935',

@@ -1,6 +1,8 @@
 // ============================================
 // Componente reutilizable: CustomButton
 // ============================================
+import React from 'react';
+
 import {
   TouchableOpacity,
   Text,
@@ -9,17 +11,17 @@ import {
   TextStyle,
 } from 'react-native';
 
-/** Props del botón personalizado */
+/** Props del botón */
 interface CustomButtonProps {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  variant: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary';
 }
 
 /**
- * Botón reutilizable con soporte para variantes y estado deshabilitado.
- * Usa operadores ternarios para cambiar estilos según la variante y si está deshabilitado.
+ * Botón reutilizable con variantes
+ * y estado deshabilitado.
  */
 export default function CustomButton({
   title,
@@ -27,24 +29,35 @@ export default function CustomButton({
   disabled = false,
   variant = 'primary',
 }: CustomButtonProps) {
-  // --- Ternario: estilo del contenedor según variante y estado disabled ---
+  // --- Estilo dinámico del botón ---
   const buttonStyle: ViewStyle = {
-    ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
+    ...(variant === 'primary'
+      ? styles.primary
+      : styles.secondary),
+
+    ...(disabled ? styles.disabled : {}),
   };
 
-  // --- Ternario: color del texto según variante ---
+  // --- Estilo dinámico del texto ---
   const textStyle: TextStyle =
-    variant === 'primary' ? styles.primaryText : styles.secondaryText;
+    variant === 'primary'
+      ? styles.primaryText
+      : styles.secondaryText;
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
+      style={[styles.base, buttonStyle]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
+      <Text
+        style={[
+          styles.baseText,
+          textStyle,
+          disabled && styles.disabledText,
+        ]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -60,24 +73,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 6,
   },
+
   primary: {
     backgroundColor: '#4A90D9',
   },
+
   secondary: {
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
-  
+
+  disabled: {
+    backgroundColor: '#B0BEC5',
+  },
+
   baseText: {
     fontSize: 16,
     fontWeight: '600',
   },
+
   primaryText: {
     color: '#FFFFFF',
   },
+
   secondaryText: {
     color: '#4A90D9',
   },
-  
+
+  disabledText: {
+    color: '#ECEFF1',
+  },
 });
