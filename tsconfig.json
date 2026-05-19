@@ -4,7 +4,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "strict": false,
-    "baseUrl": "./"
+    "baseUrl": "."
   },
-  "include": ["src/**/*"]
+  "include": ["PetCareMini/**/*"]
 }

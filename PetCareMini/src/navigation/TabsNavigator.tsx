@@ -49,14 +49,10 @@ export default function TabsNavigator() {
         },
       })}
     >
-      <Tab.Screen
-        name="HomeScreen"
-        component={HomeTab}
-        options={{ tabBarLabel: 'Inicio' }}
-      />
+      <Tab.Screen name="Home" component={HomeTab} options={{ tabBarLabel: 'Inicio' }} />
       <Tab.Screen
         name="AddActivity"
-        component={AddActivity}
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen
