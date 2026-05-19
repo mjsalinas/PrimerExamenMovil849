@@ -53,7 +53,13 @@ export default function CustomButton({
 }
 
 const styles = StyleSheet.create({
-  base: { ... },
+  base: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   primary: {
     backgroundColor: '#4A90D9',
   },
