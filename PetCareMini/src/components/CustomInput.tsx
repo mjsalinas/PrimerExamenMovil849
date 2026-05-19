@@ -2,12 +2,11 @@
 // Componente reutilizable: CustomInput
 // ============================================
 import { useState } from 'react';
-import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
+import {TextInput,Text,StyleSheet,KeyboardTypeOptions, TouchableOpacity, View} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
 
 /** Props del input personalizado */
-interface CustomInputProps {
+type Props = {
   value: string;
   placeholder: string;
   onChangeText: (text: string) => void;
@@ -25,7 +24,7 @@ export default function CustomInput({
   onChangeText,
   type = 'text',
   error,
-}: CustomInputProps) {
+}: Props) {
   const [showPassword, setShowPassword] = useState(false);
 
   // --- Ternario: determinar keyboardType según el tipo de input ---
@@ -35,21 +34,22 @@ export default function CustomInput({
     return 'default';
   };
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
+   const getLocalError = () =>{
+    if (!value) return undefined;
+    if (type === 'email' && !value.includes('@')) return 'Correo Inválido';
+    if (type === 'password' && value.length < 6) return 'La contraseña debe ser más fuerte';
+    return undefined;
     };
     
-    error = getError();
+    const activeError = error || getLocalError();
 
   // --- Ternario: ocultar texto si es password y no se muestra ---
   const isSecure = type === 'password' && !showPassword;
 
   return (
-      
-      <View style={[styles.inputWrapper, error?styles.inputError:styles.inputNormal]}>
+
+    <View style={styles.container}>
+      <View style={[styles.inputWrapper, activeError?styles.inputError:styles.inputNormal]}>
         <TextInput
           style={styles.input}
           value={value}
@@ -75,9 +75,10 @@ export default function CustomInput({
             />
             </TouchableOpacity>
         )}
-        <Text style={styles.errorText}>{error}</Text>
+        
       </View>
-      
+      {activeError &&<Text style={styles.errorText}>{activeError}</Text>}
+    </View>
   );
 }
 
