@@ -37,7 +37,7 @@ export default function CustomInput({
 
    const getError = () =>{
         if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
+            return 'El correo debe incluir @';
         if (type === "password" && value.length < 6)
             return 'La contraseña debe ser mas fuerte';
     };
