@@ -86,10 +86,10 @@ export default function AddActivityTab({ navigation }: any) {
         {/* --- Ternario: botón deshabilitado si no es válido --- */}
         <View style={styles.buttonContainer}>
           <CustomButton
-            title="Guardar Actividad"
-            onPress={()=>{}}
-            disabled={isValid}
-            variant="primary"
+              title="Guardar Actividad"
+              onPress={handleSave}
+              disabled={!isValid}
+              variant="primary"
           />
         </View>
       </View>
