@@ -1,7 +1,7 @@
 // ============================================
 // Componente reutilizable: CustomInput
 // ============================================
-import { useState } from 'react';
+import  useState  from 'react-native';
 import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
@@ -26,7 +26,7 @@ export default function CustomInput({
   type = 'text',
   error,
 }: CustomInputProps) {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState (false);
 
   // --- Ternario: determinar keyboardType según el tipo de input ---
   const getKeyboardType = (): KeyboardTypeOptions => {

@@ -1,14 +1,7 @@
 // ============================================
 // Componente reutilizable: CustomButton
 // ============================================
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
-
+import {  TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 /** Props del botón personalizado */
 interface CustomButtonProps {
   title: string;
