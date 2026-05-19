@@ -37,9 +37,9 @@ export default function CustomInput({
 
    const getError = () =>{
         if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
+            return 'El correo debe incluir @';
+        if (type === "password" && value.length < 6)//se hace la validacion
+            return 'La contraseña debe tener al menos 6 caracteres';
     };
     
     error = getError();
@@ -71,7 +71,7 @@ export default function CustomInput({
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye-outline'}
               size={22}
-              color="#607D8B"
+              color="#607D8B"// se usa el eye para ocultar 
             />
             </TouchableOpacity>
         )}

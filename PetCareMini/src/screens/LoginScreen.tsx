@@ -57,7 +57,7 @@ export default function LoginScreen({ navigation }: any) {
           value={''}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
-          type="email"
+          type="email" //usa el email-adrress
           error={emailError}
         />
 
@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }: any) {
           value={password}
           placeholder="Contraseña"
           onChangeText={setPassword}
-          type="password"
+          type="password" 
           error={passwordError}
         />
 
