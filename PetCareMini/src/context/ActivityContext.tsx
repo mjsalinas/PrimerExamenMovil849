@@ -34,7 +34,7 @@ export function ActivityProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteActivity = (id: string) => {
-    setActivities((prev) => prev.filter((a) => a.id !== id));
+    setActivities((prev) => prev.filter((a: { id: string; }) => a.id !== id));
   };
 
   return (

@@ -48,7 +48,7 @@ export default function CustomButton({
         {title}
       </Text>
     </TouchableOpacity>
-  );
+  );2z2
 }
 
 const styles = StyleSheet.create({
