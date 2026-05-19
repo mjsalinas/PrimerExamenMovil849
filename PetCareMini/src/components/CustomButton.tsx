@@ -1,3 +1,5 @@
+import { MaterialIcons }  from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar'
 // ============================================
 // Componente reutilizable: CustomButton
 // ============================================
