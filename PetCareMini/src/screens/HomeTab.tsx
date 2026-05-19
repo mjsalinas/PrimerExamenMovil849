@@ -24,7 +24,7 @@ export default function HomeTab({ navigation }: any) {
   const toggleItemStatus = (id: string) => {
     setChecklist((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, done: item.done } : item
+        item.id === id ? { ...item, done: !item.done } : item
       )
     );
   };
