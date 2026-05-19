@@ -24,7 +24,7 @@ export default function HomeTab({ navigation }: any) {
   const toggleItemStatus = (id: string) => {
     setChecklist((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, done: item.done } : item
+        item.id === id ? { ...item, done: !item.done } : item
       )
     );
   };
@@ -67,7 +67,7 @@ export default function HomeTab({ navigation }: any) {
       <View style={styles.profileButton}>
         <CustomButton
           title="Ver perfil 🐶"
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('ProfileScreen')}
           variant="secondary"
         />
       </View>
