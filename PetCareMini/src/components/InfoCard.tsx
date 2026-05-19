@@ -4,7 +4,7 @@
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 /** Props de la tarjeta informativa */
-interface InfoCardProps {
+type Props = {
   title: string;
   subtitle?: string;
   rightText?: string;
@@ -22,7 +22,7 @@ export default function InfoCard({
   rightText,
   onPress,
   variant = 'default',
-}: InfoCardProps) {
+}: Props) {
   // --- Ternario: estilo condicionado según variante ---
   const cardStyle =
     variant === 'done' ? styles.cardDone : styles.cardDefault;
@@ -34,17 +34,20 @@ export default function InfoCard({
     <View style={[styles.card, cardStyle]}>
       <View style={styles.leftContent}>
         <Text style={[styles.title, titleStyle]}>{title}</Text>
-        {/* --- Renderizado condicionado: subtítulo --- */}
-        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+        {/* --- Renderizado condicionado: subtítulo corregido con && --- */}
+        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       </View>
-      {/* --- Renderizado condicionado: texto derecho --- */}
-      {rightText ? (
-        <Text style={styles.rightText}>{rightText}</Text>
-      ) : null}
+      
+      {/* --- Renderizado condicionado: texto derecho envuelto en View para asegurar el layout --- */}
+      {rightText && (
+        <View style={styles.rightContent}>
+          <Text style={styles.rightText}>{rightText}</Text>
+        </View>
+      )}
     </View>
   );
 
-  // Si tiene onPress, envolver en TouchableOpacity
+  
   if (onPress) {
     return (
       <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
@@ -82,6 +85,11 @@ const styles = StyleSheet.create({
   leftContent: {
     flex: 1,
     marginRight: 8,
+  },
+  rightContent: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    marginLeft: 8,
   },
   title: {
     fontSize: 16,

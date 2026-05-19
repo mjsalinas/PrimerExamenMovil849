@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 
 /** Props del botón personalizado */
-interface CustomButtonProps {
+type Props =  {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  variant: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary';
 }
 
 /**
@@ -26,11 +26,11 @@ export default function CustomButton({
   onPress,
   disabled = false,
   variant = 'primary',
-}: CustomButtonProps) {
+}: Props) {
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
     ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
+    ...(disabled ? styles.disabledContainer : {}), 
   };
 
   // --- Ternario: color del texto según variante ---
@@ -39,12 +39,12 @@ export default function CustomButton({
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
+      style={[styles.base, buttonStyle]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.primary]}>
+      <Text style={[styles.baseText, textStyle]}> 
         {title}
       </Text>
     </TouchableOpacity>
@@ -68,7 +68,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
-  
+  disabledContainer: {
+    opacity: 0.5, 
+  },
   baseText: {
     fontSize: 16,
     fontWeight: '600',
@@ -79,5 +81,4 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: '#4A90D9',
   },
-  
 });
