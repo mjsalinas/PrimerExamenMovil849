@@ -67,7 +67,7 @@ export default function ProfileScreen({ navigation }: any) {
 
         <Text style={styles.label}>Nombre</Text>
         <CustomInput
-          value={''}
+          value={profile.name}
           placeholder="Nombre de tu mascota"
           onChangeText={(v) => {
             setEditing(true);
