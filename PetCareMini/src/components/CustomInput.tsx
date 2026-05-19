@@ -1,10 +1,17 @@
 // ============================================
 // Componente reutilizable: CustomInput
 // ============================================
+
 import { useState } from 'react';
 import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
+
+
+/*
+import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { TextInput, Text, StyleSheet, KeyboardTypeOptions, TouchableOpacity, View } from 'react-native';*/
 
 /** Props del input personalizado */
 interface CustomInputProps {
