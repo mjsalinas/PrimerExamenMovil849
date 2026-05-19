@@ -9,7 +9,7 @@ import HistoryTab from '../screens/HistoryTab';
 
 export type TabParamList = {
   Home: undefined;
-  AddActivity: undefined;
+  AddActivityTab: undefined;
   History: undefined;
 };
 
@@ -39,7 +39,7 @@ export default function TabsNavigator() {
 
           if (route.name === 'Home') {
             iconName = 'checkmark-circle-outline';
-          } else if (route.name === 'AddActivity') {
+          } else if (route.name === 'AddActivityTab') {
             iconName = 'add-circle-outline';
           } else if (route.name === 'History') {
             iconName = 'time-outline';
@@ -50,13 +50,13 @@ export default function TabsNavigator() {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeTab}
         options={{ tabBarLabel: 'Inicio' }}
       />
       <Tab.Screen
-        name="AddActivity"
-        component={AddActivity}
+        name="AddActivityTab"
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen
