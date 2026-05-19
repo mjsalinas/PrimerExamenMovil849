@@ -79,7 +79,7 @@ export default function LoginScreen({ navigation }: any) {
           />
         </View>
 
-        {isFormValid && submitted ? (
+        {!isFormValid && submitted ? (
           <Text style={styles.helpText}>
             Por favor, corrige los errores para continuar.
           </Text>
