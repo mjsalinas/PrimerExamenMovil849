@@ -13,6 +13,7 @@ export type TabParamList = {
   History: undefined;
 };
 
+
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function TabsNavigator() {
@@ -50,13 +51,13 @@ export default function TabsNavigator() {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeTab}
         options={{ tabBarLabel: 'Inicio' }}
       />
       <Tab.Screen
         name="AddActivity"
-        component={AddActivity}
+        component={AddActivityTab}
         options={{ tabBarLabel: 'Agregar' }}
       />
       <Tab.Screen
