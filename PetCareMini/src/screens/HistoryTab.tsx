@@ -6,6 +6,7 @@ import ScreenContainer from '../components/ScreenContainer';
 import InfoCard from '../components/InfoCard';
 import CustomButton from '../components/CustomButton';
 import { useActivities } from '../context/ActivityContext';
+import React from 'react';
 
 /**
  * Muestra el historial de actividades registradas.
@@ -49,8 +50,7 @@ export default function HistoryTab({ navigation }: any) {
               {/* Botón eliminar */}
               <CustomButton
                 title="🗑 Eliminar"
-                onPress={() => deleteActivity(activity.id)}
-              />
+                onPress={() => deleteActivity(activity.id)} variant={'primary'}              />
             </View>
           ))}
         </View>

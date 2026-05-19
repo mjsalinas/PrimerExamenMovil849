@@ -7,6 +7,7 @@ import ScreenContainer from '../components/ScreenContainer';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { PetProfile } from '../types';
+import React from 'react';
 
 /**
  * Pantalla de perfil de la mascota con campos editables.

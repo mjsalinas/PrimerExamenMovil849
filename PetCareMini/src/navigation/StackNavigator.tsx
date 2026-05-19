@@ -2,6 +2,7 @@
 // Navegación: StackNavigator
 // Stack principal con Login, Tabs y Profile
 // ============================================
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import TabsNavigator from './TabsNavigator';

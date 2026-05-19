@@ -8,6 +8,7 @@ import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { useActivities } from '../context/ActivityContext';
 import { Activity } from '../types';
+import React from 'react';
 
 /**
  * Formulario para registrar una nueva actividad.
