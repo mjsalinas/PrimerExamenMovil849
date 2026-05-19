@@ -21,7 +21,6 @@ export default function HomeTab({ navigation }: any) {
     { id: '4', title: '💊 Medicamento', done: false },
   ]);
 
-  // CORREGIDO: done ahora cambia al valor opuesto (!item.done) al presionar
   const toggleItemStatus = (id: string) => {
     setChecklist((prev) =>
       prev.map((item) =>
