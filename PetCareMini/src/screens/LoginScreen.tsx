@@ -52,9 +52,9 @@ export default function LoginScreen({ navigation }: any) {
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Iniciar Sesión</Text>
 
-        {/* Input de correo */}
+        {/* CORREGIDO: Ahora usa la variable del estado "email" en lugar de '' */}
         <CustomInput
-          value={''}
+          value={email}
           placeholder="Correo electrónico"
           onChangeText={setEmail}
           type="email"
@@ -74,12 +74,12 @@ export default function LoginScreen({ navigation }: any) {
           <CustomButton
             title="Iniciar Sesión"
             onPress={handleLogin}
-            disabled={isFormValid}
+            disabled={!isFormValid && submitted}
             variant="primary"
           />
         </View>
 
-        {isFormValid && submitted ? (
+        {!isFormValid && submitted ? (
           <Text style={styles.helpText}>
             Por favor, corrige los errores para continuar.
           </Text>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   formContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#000000',
     borderRadius: 16,
     padding: 24,
     shadowColor: '#000',
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 12,
+    color: '#263238',
   },
   helpText: {
     textAlign: 'center',

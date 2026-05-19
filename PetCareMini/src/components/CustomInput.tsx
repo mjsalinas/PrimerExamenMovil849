@@ -2,11 +2,10 @@
 // Componente reutilizable: CustomInput
 // ============================================
 import { useState } from 'react';
-import {TextInput,Text,StyleSheet,KeyboardTypeOptions,} from 'react-native';
+import { TextInput, Text, StyleSheet, KeyboardTypeOptions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
 
-/** Props del input personalizado */
 interface CustomInputProps {
   value: string;
   placeholder: string;
@@ -15,41 +14,41 @@ interface CustomInputProps {
   error?: string;
 }
 
-/**
- * Input reutilizable con soporte para distintos tipos,
- * toggle de visibilidad para contraseñas y mensajes de error.
- */
 export default function CustomInput({
   value,
   placeholder,
   onChangeText,
   type = 'text',
-  error,
+  error: propError,
 }: CustomInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  // --- Ternario: determinar keyboardType según el tipo de input ---
   const getKeyboardType = (): KeyboardTypeOptions => {
     if (type === 'email') return 'email-address';
     if (type === 'number') return 'numeric';
     return 'default';
   };
 
-   const getError = () =>{
-        if (type === "email" && !value.includes('@')) 
-            return 'Correo Invalido';
-        if (type === "password" && value.length < 6)
-            return 'La contraseña debe ser mas fuerte';
-    };
+  const getErrorMessage = (): string | undefined => {
+    if (propError) return propError;
     
-    error = getError();
-
-  // --- Ternario: ocultar texto si es password y no se muestra ---
+    if (value.length > 0) {
+      if (type === "email" && !value.includes('@')) {
+        return 'Correo Invalido';
+      }
+      if (type === "password" && value.length < 6) {
+        return 'La contraseña debe ser mas fuerte';
+      }
+    }
+    return undefined;
+  };
+   
+  const activeError = getErrorMessage();
   const isSecure = type === 'password' && !showPassword;
 
   return (
-      
-      <View style={[styles.inputWrapper, error?styles.inputError:styles.inputNormal]}>
+    <View style={styles.container}>
+      <View style={[styles.inputWrapper, activeError ? styles.inputError : styles.inputNormal]}>
         <TextInput
           style={styles.input}
           value={value}
@@ -61,29 +60,29 @@ export default function CustomInput({
           placeholderTextColor="#90A4AE"
         />
 
-        {/* Toggle ojo para password */}
-
         {type === 'password' && (
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
             style={styles.eyeButton}
-            >
+          >
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye-outline'}
               size={22}
               color="#607D8B"
             />
-            </TouchableOpacity>
+          </TouchableOpacity>
         )}
-        <Text style={styles.errorText}>{error}</Text>
       </View>
       
+      {activeError && <Text style={styles.errorText}>{activeError}</Text>}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
+    width: '100%',
   },
   inputWrapper: {
     flexDirection: 'row',
