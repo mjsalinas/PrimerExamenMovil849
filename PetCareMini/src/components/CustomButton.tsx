@@ -30,7 +30,7 @@ export default function CustomButton({
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
     ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
+    ...(disabled ? styles.secondary : styles.primary),
   };
 
   // --- Ternario: color del texto según variante ---
