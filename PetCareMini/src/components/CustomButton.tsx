@@ -15,7 +15,7 @@ interface CustomButtonProps {
   onPress: () => void;
   disabled?: boolean;
   variant: 'primary' | 'secondary';
-} 
+}
 
 /**
  * Botón reutilizable con soporte para variantes y estado deshabilitado.
@@ -30,7 +30,7 @@ export default function CustomButton({
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
     ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
+    ...(disabled ? { backgroundColor: '#9CA3AF' } : {}),
   };
 
   // --- Ternario: color del texto según variante ---
@@ -39,7 +39,7 @@ export default function CustomButton({
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
+      style={[styles.base, buttonStyle]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
