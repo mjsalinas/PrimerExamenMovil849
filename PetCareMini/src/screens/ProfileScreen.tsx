@@ -1,50 +1,64 @@
 // ============================================
 // Pantalla: ProfileScreen (Perfil de la mascota)
 // ============================================
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { PetProfile } from '../types';
 
-/**
- * Pantalla de perfil de la mascota con campos editables.
- * Demuestra uso de useState, validación condicionada y renderizado condicional.
- */
-export default function ProfileScreen({ navigation }: any) {
-  // --- Estado local: perfil de la mascota ---
+export default function ProfileScreen() {
   const [profile, setProfile] = useState<PetProfile>({
     name: 'Firulais',
     age: '3',
     breed: 'Golden Retriever',
   });
 
-  const [editing, setEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [savedMessage, setSavedMessage] = useState('');
 
-  // --- Ternario: validación de edad ---
+  const [originalProfile, setOriginalProfile] = useState<PetProfile>({
+    name: 'Firulais',
+    age: '3',
+    breed: 'Golden Retriever',
+  });
+
+  const hasChanges = useMemo(() => {
+    return (
+      profile.name !== originalProfile.name ||
+      profile.age !== originalProfile.age ||
+      profile.breed !== originalProfile.breed
+    );
+  }, [profile, originalProfile]);
+
   const ageError =
-    editing && (profile.age === '' || isNaN(Number(profile.age)))
+    hasChanges && (profile.age.trim() === '' || isNaN(Number(profile.age)))
       ? 'La edad debe ser un número válido'
       : '';
 
-  /** Actualizar un campo del perfil */
   const updateField = (field: keyof PetProfile, value: string) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
-    setSaved(false);
+    setSavedMessage('');
   };
 
-  /** Guardar cambios */
   const handleSave = () => {
     if (ageError) return;
-    setEditing(false);
-    setSaved(true);
+
+    setOriginalProfile(profile);
+    setSavedMessage('✅ Perfil actualizado correctamente');
   };
+
+  const displayName = profile.name.trim() !== '' ? profile.name : 'Mi Mascota';
+  const displayBreed =
+    profile.breed.trim() !== '' ? profile.breed : '— (no definida)';
+
+  const displayAge =
+    profile.age.trim() !== '' && !isNaN(Number(profile.age))
+      ? `${profile.age} año${Number(profile.age) !== 1 ? 's' : ''}`
+      : '— (no definida)';
 
   return (
     <ScreenContainer>
-      {/* Imagen de la mascota */}
       <View style={styles.imageContainer}>
         <Image
           source={{
@@ -52,88 +66,57 @@ export default function ProfileScreen({ navigation }: any) {
           }}
           style={styles.petImage}
         />
-        <Text style={styles.petName}>{profile.name || 'Mi Mascota'}</Text>
-        {/* --- Ternario: mostrar raza si existe --- */}
-        {profile.breed ? (
-          <Text style={styles.petBreed}>{profile.breed}</Text>
-        ) : (
-          <Text style={styles.petBreed}>{profile.breed}</Text>
-        )}
+        <Text style={styles.petName}>{displayName}</Text>
+        <Text style={styles.petBreed}>{displayBreed}</Text>
       </View>
 
-      {/* Tarjeta de información */}
       <View style={styles.infoCard}>
         <Text style={styles.sectionTitle}>🐾 Información de la Mascota</Text>
 
         <Text style={styles.label}>Nombre</Text>
         <CustomInput
-          value={''}
+          value={profile.name}
           placeholder="Nombre de tu mascota"
-          onChangeText={(v) => {
-            setEditing(true);
-            updateField('name', v);
-          }}
+          onChangeText={(v) => updateField('name', v)}
         />
 
         <Text style={styles.label}>Edad</Text>
         <CustomInput
           value={profile.age}
           placeholder="Edad en años"
-          onChangeText={(v) => {
-            setEditing(true);
-            updateField('age', v);
-          }}
+          onChangeText={(v) => updateField('age', v)}
           type="number"
-          error={""}
+          error={ageError}
         />
 
         <Text style={styles.label}>Tipo / Raza</Text>
         <CustomInput
           value={profile.breed}
           placeholder="Raza o tipo de mascota"
-          onChangeText={(v) => {
-            setEditing(true);
-            updateField('breed', v);
-          }}
+          onChangeText={(v) => updateField('breed', v)}
         />
 
-        {/* Botones */}
-        <View style={styles.buttonRow}>
-          {/* --- Ternario: mostrar botón guardar solo si está editando --- */}
-          {editing ? (
+        {hasChanges ? (
+          <View style={styles.buttonRow}>
             <CustomButton
               title="Guardar Cambios"
               onPress={handleSave}
               variant="primary"
               disabled={ageError !== ''}
             />
-          ) : null}
-        </View>
+          </View>
+        ) : null}
 
-        {/* --- Renderizado condicionado: mensaje de guardado exitoso --- */}
-        {saved ? (
-          <Text style={styles.savedMessage}>
-            ✅ Perfil actualizado correctamente
-          </Text>
+        {savedMessage ? (
+          <Text style={styles.savedMessage}>{savedMessage}</Text>
         ) : null}
       </View>
 
-      {/* Info adicional */}
       <View style={styles.infoCard}>
         <Text style={styles.sectionTitle}>📊 Resumen</Text>
-        <Text style={styles.infoText}>
-          🐕 Nombre: {profile.name || '—'}
-        </Text>
-        <Text style={styles.infoText}>
-          🎂 Edad:{' '}
-          {/* --- Ternario: validación de edad para mostrar --- */}
-          {profile.age && !isNaN(Number(profile.age))
-            ? `${profile.age} año${Number(profile.age) !== 1 ? 's' : ''}`
-            : '— (no definida)'}
-        </Text>
-        <Text style={styles.infoText}>
-          🏷️ Raza: {profile.breed || '— (no definida)'}
-        </Text>
+        <Text style={styles.infoText}>🐕 Nombre: {displayName}</Text>
+        <Text style={styles.infoText}>🎂 Edad: {displayAge}</Text>
+        <Text style={styles.infoText}>🏷️ Raza: {displayBreed}</Text>
       </View>
     </ScreenContainer>
   );
