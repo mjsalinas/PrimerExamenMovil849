@@ -6,6 +6,7 @@
 import { createContext, useContext, useState } from 'react';
 import { Activity } from '../types';
 
+
 /** Tipo del contexto */
 interface ActivityContextType {
   activities: Activity[];
